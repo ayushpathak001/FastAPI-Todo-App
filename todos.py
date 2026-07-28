@@ -99,3 +99,24 @@ def get_todo_id(todo):
 
 
 
+
+
+@app.get("/todos")
+async def get_todos_by_priority(
+    priority: int = Query(ge=1, le=5)
+):
+    priority_todos = []
+
+    for todo in TODOS:
+        if todo.priority == priority:
+            priority_todos.append(todo)
+
+    if len(priority_todos) == 0:
+        return {
+            "msg": "No todos found with this priority."
+        }
+
+    return {
+        "msg": "Todos found successfully.",
+        "todos": priority_todos
+    }
